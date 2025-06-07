@@ -2,106 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dr. Mujumdar Clinic | Compassionate Care Since 2001</title>
-  <meta name="description" content="Dr. Mujumdar Clinic in Ahilyanagar offers compassionate healthcare services including lab testing, pediatrics, and emergency care. Book your appointment today.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dr. Mujumdar Clinic - Home</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 </head>
 <body>
-
-  <!-- Navbar -->
   <header class="navbar">
-    <div class="logo">Dr. Mujumdar Clinic</div>
-    <nav id="nav-links" class="nav-links">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <img src="images/logo1.png" alt="Dr. Mujumdar Clinic Logo" class="logo-img" />
     <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="privacy-policy.html">Privacy</a>
+    </nav>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero" id="home">
+  <section class="hero">
     <div class="overlay"></div>
-    <div class="hero-text" data-aos="fade-up">
+    <div class="hero-text">
       <h1>Where Health Meets Elegance</h1>
-      <p>Since 2001 – Compassionate care because your family’s health deserves the best</p>
-      <a href="#contact" class="btn">Book Appointment</a>
+      <p>Since 2001 — Compassionate care because your family's health deserves the best</p>
+      <a href="#book" class="btn">Book Appointment</a>
     </div>
   </section>
 
-  <!-- About Us -->
-  <section class="about" id="about" data-aos="fade-up">
-    <h2>About Dr. Mujumdar Clinic</h2>
-    <p>
-      Established in 2001, Dr. Mujumdar Clinic in Ahilyanagar is known for its trusted care and modern medical practices. Our mission is to provide affordable, efficient, and compassionate healthcare to families in our community.
-    </p>
-    <p>
-      We specialize in family medicine, child care, general checkups, emergency care, and lab testing. Our experienced medical team is always ready to serve you with empathy and expertise.
-    </p>
+  <section class="about">
+    <h2>Welcome to Dr. Mujumdar Clinic</h2>
+    <p>We are dedicated to delivering high-quality healthcare with empathy and excellence. From pediatric care to lab diagnostics, our clinic ensures that every patient receives personalized attention and modern medical care.</p>
+    <img src="images/banner1.jpg" alt="Clinic banner" class="about-img" />
   </section>
 
-  <!-- Services -->
-  <section class="services" id="services" data-aos="fade-up">
+  <section class="services">
     <h2>Our Services</h2>
     <ul>
-      <li>✅ General Health Checkups</li>
-      <li>✅ Pediatrics & Child Health</li>
-      <li>✅ Laboratory Testing</li>
-      <li>✅ Emergency & Trauma Care</li>
-      <li>✅ Diabetes & Blood Pressure Management</li>
-      <li>✅ Vaccinations</li>
+      <li>✔️ General Checkups</li>
+      <li>✔️ Pediatric Services</li>
+      <li>✔️ Lab Testing</li>
+      <li>✔️ Emergency Medical Assistance</li>
     </ul>
   </section>
 
-  <!-- Testimonials -->
-  <section class="testimonials" id="testimonials">
-    <h2 data-aos="fade-up">What Our Patients Say</h2>
-    <div class="testimonial-cards">
-      <div class="card" data-aos="fade-right">
-        <p>"The doctors are very kind and knowledgeable. My family trusts them completely!"</p>
-        <span>– Priya M.</span>
-      </div>
-      <div class="card" data-aos="fade-up">
-        <p>"Clean, efficient and caring. Highly recommend this clinic to everyone."</p>
-        <span>– Ramesh D.</span>
-      </div>
-      <div class="card" data-aos="fade-left">
-        <p>"They truly care about your health. Best clinic in the area!"</p>
-        <span>– Anita G.</span>
-      </div>
-    </div>
+  <section class="book" id="book">
+    <h2>Book an Appointment</h2>
+    <p>Call us at <strong>+91-9876543210</strong> or visit us at Ahilyanagar Clinic, Pune</p>
+    <a href="https://calendly.com/" class="btn" target="_blank">Book via Calendly</a>
   </section>
 
-  <!-- Privacy Policy -->
-  <section class="privacy" id="privacy" data-aos="fade-up">
-    <h2>Your Privacy Matters</h2>
-    <p>We respect your privacy and comply with all health data protection laws.<br />
-      <a href="/privacy-policy.html">Read our full Privacy Policy →</a>
-    </p>
+  <section class="privacy">
+    <p><a href="privacy-policy.html">Read our full Privacy Policy →</a></p>
   </section>
 
-  <!-- Footer / Contact -->
-  <footer id="contact">
-    <div class="footer-content">
-      <h3>Contact Us</h3>
-      <p>📍 Ahilyanagar, Maharashtra</p>
-      <p>📞 +91-9876543210</p>
-      <p>📧 contact@drmujumdarclinic.com</p>
-      <p>© 2025 Dr. Mujumdar Clinic | All rights reserved.</p>
-    </div>
+  <footer>
+    <p>© 2025 Dr. Mujumdar Clinic | All rights reserved</p>
   </footer>
 
-  <!-- JS for AOS + Menu -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init();
     function toggleMenu() {
-      document.getElementById("nav-links").classList.toggle("show");
+      const nav = document.getElementById("navLinks");
+      nav.classList.toggle("show");
     }
   </script>
 </body>
