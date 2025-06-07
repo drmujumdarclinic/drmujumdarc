@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Testimonials | Dr. Mujumdar Clinic</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <img src="images/logo1.png" alt="Logo" class="logo-img" />
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="privacy-policy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <section class="testimonials">
+    <h2>What Our Patients Say</h2>
+    <div class="testimonial-cards">
+      <div class="card">
+        <p>“Very clean clinic and polite doctor. My child's fever was treated in one day. Highly recommended!”</p>
+        <strong>- R. Sharma</strong>
+      </div>
+      <div class="card">
+        <p>“Efficient lab services and helpful staff. Booked online and was attended without delay.”</p>
+        <strong>- Sneha M.</strong>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Dr. Mujumdar Clinic | All rights reserved</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("show");
+    }
+  </script>
+</body>
+</html>
