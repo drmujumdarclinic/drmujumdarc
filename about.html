@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | Dr. Mujumdar Clinic</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <img src="images/logo1.png" alt="Logo" class="logo-img" />
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="privacy-policy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main class="about">
+    <h2>About Dr. Mujumdar Clinic</h2>
+    <p>Founded in 2001, our clinic has served thousands of families across Pune. Led by experienced doctors and supported by a dedicated nursing staff, we pride ourselves on combining science with empathy.</p>
+    <p>Our mission is to provide accessible and affordable healthcare in a clean, comfortable, and technologically equipped setting.</p>
+  </main>
+
+  <footer>
+    <p>© 2025 Dr. Mujumdar Clinic | All rights reserved</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("show");
+    }
+  </script>
+</body>
+</html>
