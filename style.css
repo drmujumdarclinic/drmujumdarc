@@ -1,4 +1,72 @@
-/* --- Hero Background Fix --- */
+/* RESET AND GLOBALS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4faff;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: #0077b6;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ffd166;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.show {
+  display: flex !important;
+  flex-direction: column;
+  position: absolute;
+  right: 2rem;
+  top: 70px;
+  background: #0077b6;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* HERO SECTION */
 .hero {
   position: relative;
   height: 100vh;
@@ -12,44 +80,48 @@
 
 .overlay {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .hero-text {
   position: relative;
   z-index: 2;
-  max-width: 800px;
+  max-width: 700px;
   padding: 2rem;
 }
 
 .hero-text h1 {
   font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
 .hero-text p {
   font-size: 1.2rem;
-  margin-top: 1rem;
   margin-bottom: 1.5rem;
 }
 
 .btn {
-  padding: 0.8rem 1.6rem;
-  background: #00b4d8;
+  background-color: #00b4d8;
   color: white;
+  padding: 0.8rem 1.5rem;
   border-radius: 30px;
-  text-decoration: none;
   font-weight: bold;
+  transition: background 0.3s ease;
 }
 
-/* --- About Section --- */
+.btn:hover {
+  background-color: #0096c7;
+}
+
+/* ABOUT */
 .about, .services {
   padding: 4rem 2rem;
-  background: #fff;
   text-align: center;
-  line-height: 1.6;
+  background-color: #fff;
 }
 
 .about h2, .services h2 {
@@ -57,15 +129,92 @@
   margin-bottom: 1rem;
 }
 
-/* --- Services --- */
+.about p {
+  max-width: 800px;
+  margin: 0.5rem auto;
+  font-size: 1.1rem;
+}
+
+/* SERVICES */
 .services ul {
   list-style: none;
   padding: 0;
 }
 
 .services li {
-  margin: 0.6rem 0;
   font-size: 1.1rem;
+  margin: 0.5rem 0;
 }
 
-/* Keep Testimonials, Footer, Privacy same as earlier */
+/* TESTIMONIALS */
+.testimonials {
+  background: #f0f9ff;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.testimonials h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.testimonial-cards {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+}
+
+/* PRIVACY */
+.privacy {
+  padding: 3rem 2rem;
+  background: #fff;
+  text-align: center;
+}
+
+.privacy a {
+  color: #0077b6;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+  background-color: #023e8a;
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+footer h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .testimonial-cards {
+    flex-direction: column;
+  }
+}
