@@ -67,20 +67,7 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <div class="container-fluid bg-primary py-5 mb-5 hero-header">
-    <div class="container py-5">
-      <div class="row justify-content-start">
-        <div class="col-lg-8 text-center text-lg-start">
-          <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5" style="border-color: rgba(256, 256, 256, .3) !important;">Welcome To Dr Mujumdar Clinic</h5>
-          <h1 class="display-1 text-white mb-md-4">Dr Mujumdar Clinic</h1>
-          <h4 class="text-white">Where health meets elegance</h4>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<!-- Animate on Scroll Library -->
+  <!-- Animate on Scroll Library -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
@@ -91,6 +78,7 @@
     once: true
   });
 </script>
+
 <!-- Include Owl Carousel CSS & JS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
@@ -107,11 +95,29 @@
       autoplayTimeout: 5000,
       responsive: {
         0: { items: 1 },
-        768: { items: 2 }
+        768: { items: 2 },
+        1024: { items: 3 }
       }
     });
   });
 </script>
+ <!-- Hero Section -->
+<section class="hero-section d-flex align-items-center" style="background: linear-gradient(to right, #eefaff, #f8fcff); padding: 100px 0; overflow: hidden;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <h1 class="display-4 fw-bold" style="font-family: 'Playfair Display', serif; color: #0b3e5e;">Welcome to <span class="text-primary">Dr. Mujumdar Clinic</span></h1>
+        <p class="fs-5 mt-3">Where health meets elegance. Trusted by families since 2001.</p>
+        <a href="#about" class="btn btn-primary mt-4">Learn More</a>
+      </div>
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <img src="https://i.ibb.co/vCyWDNC/poster.jpg" class="img-fluid lift-up" alt="Clinic Poster" style="max-height: 400px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
 <!-- About Section -->
 <div id="about" class="container-fluid py-5" style="font-family: 'Segoe UI', sans-serif;" data-aos="fade-up">
