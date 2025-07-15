@@ -103,22 +103,19 @@
     });
   });
 </script>
- <!-- Hero Section -->
-<section class="hero-section d-flex align-items-center" style="background: linear-gradient(to right, #eefaff, #f8fcff); padding: 100px 0; overflow: hidden;">
+
+  <!-- Hero Section -->
+<section class="hero-section d-flex align-items-center text-center" style="background: linear-gradient(to right, #eefaff, #f8fcff); padding: 100px 0; overflow: hidden;">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6" data-aos="fade-right">
-        <h1 class="display-4 fw-bold" style="font-family: 'Playfair Display', serif; color: #0b3e5e;">Welcome to   <span class="text-primary">Dr. Mujumdar Clinic</span></h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-8" data-aos="fade-down">
+        <h1 class="display-4 fw-bold" style="font-family: 'Playfair Display', serif; color: #0b3e5e;">Welcome to <span class="text-primary">Dr. Mujumdar Clinic</span></h1>
         <p class="fs-5 mt-3">Where health meets elegance. Trusted by families since 2001.</p>
-        <a href="#about" class="btn btn-primary mt-4">Learn More</a>
-      </div>
-      <div class="col-lg-6 text-center" data-aos="fade-left">
-      <a href="https://ibb.co/ccNvr5JR"><img src="https://i.ibb.co/tMbhJfBn/Dr-Mujumdar-Clinic.png" alt="Dr-Mujumdar-Clinic" border="0"></a>
+        <a href="#about" class="btn btn-primary btn-lg mt-4 px-5 py-3" style="font-size: 1.25rem; font-weight: 600;">Learn More</a>
       </div>
     </div>
   </div>
 </section>
-
 
 
 <!-- About Section -->
@@ -326,8 +323,88 @@
 </div>
 <!-- Testimonial End -->
 
-  <!-- Floating Book Button -->
-  <a href="appointment.html" class="floating-button shadow"><span>&#128172;</span></a>
+  <!-- FAQ Section -->
+<section id="faq" class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h5 class="text-primary text-uppercase">FAQ</h5>
+      <h2 class="fw-bold" style="font-family: 'Playfair Display', serif;">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="accordion" id="faqAccordion">
+      <!-- Q1 -->
+      <div class="accordion-item" data-aos="fade-up">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+            What are your clinic hours?
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Our clinic operates daily from 11:00 AM to 10:00 PM, including weekends.
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="accordion-item" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+            Do I need to book an appointment?
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Appointments are preferred, but walk-in patients are always welcome.
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="accordion-item" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+            Are lab tests available at your clinic?
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes, we offer in-house blood and urine testing through Morya Clinical Lab.
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="accordion-item" data-aos="fade-up" data-aos-delay="300">
+        <h2 class="accordion-header" id="headingFour">
+          <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+            Is pharmacy available on-site?
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes, Sindhu Medical is our on-site pharmacy partner offering all essential medications.
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="accordion-item" data-aos="fade-up" data-aos-delay="400">
+        <h2 class="accordion-header" id="headingFive">
+          <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+            Do you offer pediatric care?
+          </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes, Dr. H R Mujumdar specializes in both general and pediatric medicine.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
   <!-- Bootstrap + AOS Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
