@@ -59,6 +59,44 @@
     </div>
   </nav>
 
+
+  <!-- Bootstrap Blog Modal -->
+<div class="modal fade" id="diabetesModal" tabindex="-1" aria-labelledby="diabetesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="diabetesModalLabel">📘 Health Alert: Understanding Diabetes</h5>
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Diabetes is a chronic condition that affects millions of people in India and around the world. 
+          Learn how to recognize early symptoms, types of diabetes, prevention strategies, and treatment options.
+        </p>
+        <p>
+          Early diagnosis and lifestyle changes can significantly reduce your risk. 
+          Let’s understand diabetes better for a healthier future.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="newblog.html" class="btn btn-primary">Read Full Blog</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show modal after 5 seconds -->
+<script>
+  window.onload = function() {
+    setTimeout(function () {
+      var modal = new bootstrap.Modal(document.getElementById('diabetesModal'));
+      modal.show();
+    }, 5000);
+  };
+</script>
+
+  
   <!-- Animate on Scroll Library -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
