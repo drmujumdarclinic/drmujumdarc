@@ -1,0 +1,45 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Dashboard</title>
+</head>
+<body>
+  <h2>Welcome to Your Dashboard</h2>
+  <div id="patientInfo">Loading...</div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyDVnWj_uoHPcDLNGyUUFeLpWC1HShWbkZ4",
+  authDomain: "drmujumdarclinic-e677a.firebaseapp.com",
+  projectId: "drmujumdarclinic-e677a",
+  storageBucket: "drmujumdarclinic-e677a.firebasestorage.app",
+  messagingSenderId: "1056467807544",
+  appId: "1:1056467807544:web:3232776e88f5aa5f7f65cd"
+};
+
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const token = localStorage.getItem("patientToken");
+
+    const q = query(collection(db, "patients"), where("token", "==", token));
+    const snapshot = await getDocs(q);
+
+    if (!snapshot.empty) {
+      const data = snapshot.docs[0].data();
+      document.getElementById("patientInfo").innerHTML = `
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Appointment:</strong> ${data.appointmentDate}</p>
+        <p><strong>Status:</strong> ${data.status}</p>`;
+    } else {
+      document.getElementById("patientInfo").textContent = "Invalid token";
+    }
+  </script>
+</body>
+</html>
