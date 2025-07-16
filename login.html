@@ -1,57 +1,53 @@
-<!-- login.html -->
+<!-- patient-login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Patient Login</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+  <title>Patient Login – Dr Mujumdar Clinic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="style.css" rel="stylesheet"> <!-- Your existing CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="login-box">
-    <h2>Patient Login</h2>
-    <form id="loginForm">
-      <label for="token">Your Token ID</label>
-      <input type="text" id="token" placeholder="e.g. 1234" required>
+<body class="bg-light">
 
-      <label for="dob">Date of Birth</label>
-      <input type="date" id="dob" required>
-
-      <button type="submit">Login</button>
-      <p id="error" style="color:red;"></p>
-    </form>
+  <div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+      <h4 class="text-center text-primary mb-3">🔐 Patient Login</h4>
+      <form id="loginForm">
+        <div class="mb-3">
+          <label class="form-label">Enter Token or Mobile Number</label>
+          <input type="text" class="form-control" id="loginInput" placeholder="Token or Mobile No." required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Check Appointment</button>
+        <div id="errorMsg" class="text-danger mt-3 text-center" style="display:none;"></div>
+      </form>
+    </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // replace with your Apps Script URL
 
-  const firebaseConfig = {
-  apiKey: "AIzaSyDVnWj_uoHPcDLNGyUUFeLpWC1HShWbkZ4",
-  authDomain: "drmujumdarclinic-e677a.firebaseapp.com",
-  projectId: "drmujumdarclinic-e677a",
-  storageBucket: "drmujumdarclinic-e677a.firebasestorage.app",
-  messagingSenderId: "1056467807544",
-  appId: "1:1056467807544:web:3232776e88f5aa5f7f65cd"
-};
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const token = document.getElementById("token").value.trim();
-      const dob = document.getElementById("dob").value.trim();
+      const input = document.getElementById("loginInput").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+      errorMsg.style.display = 'none';
 
-      const q = query(collection(db, "patients"), where("token", "==", token), where("dob", "==", dob));
-      const snapshot = await getDocs(q);
+      try {
+        const response = await fetch(`${scriptURL}?action=verifyPatient&key=${encodeURIComponent(input)}`);
+        const result = await response.json();
 
-      if (!snapshot.empty) {
-        localStorage.setItem("patientToken", token);
-        window.location.href = "dashboard.html";
-      } else {
-        document.getElementById("error").textContent = "Invalid Token or DOB";
+        if (result.status === "FOUND") {
+          // Store in localStorage (optional) and redirect
+          localStorage.setItem("patientData", JSON.stringify(result.data));
+          window.location.href = "appointment-status.html";
+        } else {
+          errorMsg.textContent = "❌ No appointment found for given token/mobile number.";
+          errorMsg.style.display = 'block';
+        }
+      } catch (err) {
+        errorMsg.textContent = "Error connecting to server.";
+        errorMsg.style.display = 'block';
       }
     });
   </script>
