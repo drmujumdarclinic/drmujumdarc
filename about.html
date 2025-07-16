@@ -1,37 +1,136 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About Us | Dr. Mujumdar Clinic</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Dr Mujumdar Clinic</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  <header class="navbar">
-    <img src="images/logo1.png" alt="Logo" class="logo-img" />
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="testimonials.html">Testimonials</a>
-      <a href="privacy-policy.html">Privacy</a>
-    </nav>
-  </header>
+  <!-- About Hero -->
+  <section class="about-hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold text-dark">About Dr. Mujumdar Clinic</h1>
+      <p class="lead">Serving Ahilyanagar with compassionate healthcare since 2001.</p>
+    </div>
+  </section>
 
-  <main class="about">
-    <h2>About Dr. Mujumdar Clinic</h2>
-    <p>Founded in 2001, our clinic has served thousands of families across Pune. Led by experienced doctors and supported by a dedicated nursing staff, we pride ourselves on combining science with empathy.</p>
-    <p>Our mission is to provide accessible and affordable healthcare in a clean, comfortable, and technologically equipped setting.</p>
-  </main>
+  <!-- About Content -->
+  <section class="about-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 about-content">
+          <h2>Our Legacy</h2>
+          <p>Dr. Mujumdar Clinic was established in <strong>2001</strong> by <strong>Dr. H.R. Mujumdar</strong> with the vision of bringing quality and affordable healthcare to the people of Ahilyanagar. With over <strong>24 years</strong> of trust and service, our clinic is a symbol of compassionate care and medical excellence.</p>
+          <p>We have continuously upgraded our systems and facilities to match modern healthcare standards, ensuring every patient gets the best treatment possible.</p>
+        </div>
+        <div class="col-md-6 about-img-container">
+          <img src="img/clinic-front.jpg" alt="Clinic Front View" class="about-img">
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- About Content 2 -->
+  <section class="about-section reverse">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 about-content">
+          <h2>Partnerships & Expansion</h2>
+          <p>To enhance patient care, we’ve partnered with <strong>Sindhu Medical</strong> and <strong>Morya Clinical Lab</strong> for seamless medication access and advanced diagnostic services. Our clinic now integrates pharmacy and lab services under one ecosystem to save patient time and ensure coordinated care.</p>
+          <p>We also maintain a separate website for appointment booking and patient interaction, supported by digital tools for reminders, reports, and rescheduling facilities.</p>
+        </div>
+        <div class="col-md-6 about-img-container">
+          <img src="img/partnership.jpg" alt="Our Partners" class="about-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="about-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 about-content">
+          <h2>Why Patients Trust Us</h2>
+          <ul>
+            <li>24+ Years of Trust</li>
+            <li>Emergency Services Available</li>
+            <li>Partnership with Trusted Pharmacy & Labs</li>
+            <li>Appointment-based System to Reduce Waiting Time</li>
+            <li>Digital Health Records and Online Cancellation/Reschedule</li>
+            <li>Multilingual Staff and Patient Support</li>
+          </ul>
+        </div>
+        <div class="col-md-6 about-img-container">
+          <img src="img/trusted-care.jpg" alt="Trusted Care" class="about-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <p>© 2025 Dr. Mujumdar Clinic | All rights reserved</p>
+    <!-- Paste the exact updated footer code here from your existing index page -->
+    <div class="container-fluid bg-dark text-light mt-5 py-5">
+      <div class="container py-5">
+        <div class="row g-5">
+          <div class="col-lg-3 col-md-6">
+            <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">Get In Touch</h4>
+            <p class="mb-4">Feel free to reach us. We are ready for your help</p>
+            <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Shivneri Chowk Station Road Ahilyanagar</p>
+            <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>drmujumdarclinic@gmail.com</p>
+            <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>+91 9422229636</p>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">Quick Links</h4>
+            <div class="d-flex flex-column justify-content-start">
+              <a class="text-light mb-2" href="index.html"><i class="fa fa-angle-right me-2"></i>Home</a>
+              <a class="text-light mb-2" href="#"><i class="fa fa-angle-right me-2"></i>About Us</a>
+              <a class="text-light mb-2" href="#services"><i class="fa fa-angle-right me-2"></i>Our Services</a>
+              <a class="text-light mb-2" href="#team"><i class="fa fa-angle-right me-2"></i>Meet The Team</a>
+              <a class="text-light mb-2" href="#blog"><i class="fa fa-angle-right me-2"></i>Latest Blog</a>
+              <a class="text-light" href="#contact"><i class="fa fa-angle-right me-2"></i>Contact Us</a>
+              <a class="text-light" href="privacy-policy.html"><i class="fa fa-angle-right me-2"></i>Privacy Policy</a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">Newsletter</h4>
+            <form action="">
+              <div class="input-group">
+                <input type="text" class="form-control p-3 border-0" placeholder="Your Email Address">
+                <button class="btn btn-primary">Sign Up</button>
+              </div>
+            </form>
+            <h6 class="text-primary text-uppercase mt-4 mb-3">Follow Us</h6>
+            <div class="d-flex">
+              <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
+              <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f"></i></a>
+              <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid bg-dark text-light border-top border-secondary py-4">
+      <div class="container">
+        <div class="row g-5">
+          <div class="col-md-6 text-center text-md-start">
+            <p class="mb-md-0">&copy; <span id="copyright-year"></span> <a class="text-primary" href="#">Dr Mujumdar Clinic</a>. All Rights Reserved.</p>
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <p class="mb-0">Designed with care for Dr Mujumdar Clinic</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById("copyright-year").textContent = new Date().getFullYear();
+    </script>
   </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById("navLinks").classList.toggle("show");
-    }
-  </script>
 </body>
 </html>
+
