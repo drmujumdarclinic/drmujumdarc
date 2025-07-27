@@ -1,231 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Book Appointment</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Appointment – Dr. Mujumdar Clinic</title>
   <style>
-    :root {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color-scheme: light dark;
+    body { font-family: Arial, sans-serif; background: #f0f8ff; margin: 0; padding: 0; }
+    .ticker {
+      background: #e1f5fe;
+      color: #01579b;
+      padding: 10px;
+      font-weight: bold;
+      overflow: hidden;
+      white-space: nowrap;
     }
-    body {
-      margin: 0;
-      background: #f7f9fc;
-      display: flex;
-      min-height: 100vh;
-      align-items: center;
-      justify-content: center;
+    .ticker span {
+      display: inline-block;
+      animation: scroll 16s linear infinite;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
       padding: 20px;
-    }
-    .card {
-      width: 100%;
-      max-width: 420px;
       background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,.08);
-      padding: 24px 22px 28px;
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 1.4rem;
-    }
-    p.subtitle {
-      margin: 0 0 18px;
-      color: #666;
-      font-size: .9rem;
-    }
-    label {
-      display: block;
-      margin: 14px 0 6px;
-      font-size: .9rem;
-      color: #222;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px 12px;
       border-radius: 8px;
-      border: 1px solid #d7dce4;
-      background: #fff;
-      box-sizing: border-box;
-      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: relative;
     }
-    input:focus, select:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+
+    h2 { text-align: center; color: #1565c0; }
+    label { margin-top: 10px; display: block; font-weight: bold; }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
     button {
-      margin-top: 18px;
-      background: #3b82f6;
-      color: #fff;
+      width: 100%;
+      padding: 12px;
+      background: #1565c0;
+      color: white;
       border: none;
+      margin-top: 20px;
+      font-size: 16px;
+      border-radius: 6px;
       cursor: pointer;
-      font-weight: 600;
     }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+    .footer {
+      text-align: center;
+      margin-top: 20px;
     }
-    .msg {
-      margin-top: 14px;
-      font-size: .92rem;
+    .footer a {
+      text-decoration: none;
+      color: #1565c0;
     }
-    .msg.success { color: #0f766e; }
-    .msg.error   { color: #b91c1c; }
-    .loader {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 3px solid #fff;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      vertical-align: middle;
-      margin-right: 8px;
+    .status {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: red;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    small.hint {
-      color: #777;
-      font-size: .8rem;
+
+   
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Book Appointment</h1>
-    <p class="subtitle">Fill in your details to reserve a slot.</p>
+<div id="custom-loader-placeholder"></div>
 
-    <form id="appointmentForm" novalidate>
-      <label for="name">Full Name</label>
-      <input id="name" name="name" type="text" required placeholder="e.g. Rahul Patil" />
+  <!-- Moving Ticker -->
+  <div class="ticker">
+    <span>🔔 Welcome to Dr. Mujumdar Clinic | डॉ. मुजुमदार क्लिनिकमध्ये आपले स्वागत आहे | Contact: 9422229636 | Some slots may fill early.</span>
+  </div>
 
-      <label for="phone">Phone</label>
-      <input id="phone" name="phone" type="tel" required pattern="[0-9]{10}" placeholder="10-digit number" />
-      <small class="hint">Enter a 10-digit mobile number</small>
+  <!-- Loader Overlay -->
+  <div class="overlay" id="overlay">
+    <div class="loader"></div>
+  </div>
 
-      <label for="date">Date</label>
-      <input id="date" name="date" type="date" required />
+  <!-- Main Form -->
+  <div class="container">
+    <h2>Book Your Appointment <br>अपॉइंटमेंट बुक करा</h2>
+    <form id="bookingForm">
+      <label>Full Name / पूर्ण नाव:</label>
+      <input type="text" name="name" required />
 
-      <label for="time">Time</label>
-      <select id="time" name="time" required>
-        <!-- Example slot list — adjust as you wish -->
-        <option value="">-- Select a time --</option>
-        <option>11:00</option>
-        <option>11:10</option>
-        <option>11:20</option>
-        <option>11:30</option>
-        <option>11:40</option>
-        <option>11:50</option>
-        <option>12:00</option>
-        <option>12:10</option>
-        <option>12:20</option>
-        <option>12:30</option>
-        <option>18:00</option>
-        <option>18:10</option>
-        <option>18:20</option>
-        <option>18:30</option>
-        <option>18:40</option>
-        <option>18:50</option>
-        <option>19:00</option>
-        <option>19:10</option>
-        <option>19:20</option>
-        <option>19:30</option>
-        <option>19:40</option>
-        <option>19:50</option>
-        <option>20:00</option>
-        <!-- ... add the full list of 10‑minute slots you use -->
+      <label>Email:</label>
+      <input type="email" name="email" required />
+
+      <label>Phone / फोन नंबर:</label>
+      <input type="tel" name="phone" required />
+
+      <label>Date / तारीख:</label>
+      <input type="date" name="date" id="date" required />
+
+      <label>Time Slot / वेळ:</label>
+      <select name="time" id="time" required>
+        <option value="">Please select a date first / कृपया आधी तारीख निवडा</option>
       </select>
 
-      <button id="submitBtn" type="submit">
-        <span id="btnText">Book Now</span>
-      </button>
-
-      <div id="msg" class="msg"></div>
+      <button type="submit">Submit / सबमिट करा</button>
+      <div class="status" id="status"></div>
     </form>
+
+    <div class="footer">
+      <a href="index.html">← Back to Home / मुख्यपृष्ठावर जा</a>
+    </div>
   </div>
 
   <script>
-    // 1) Put your backend URL here
-    const BACKEND_URL = "https://1f052639-5433-495b-8445-7040e3be3083-00-3azzpjpj40e2u.pike.replit.dev/"; // <-- CHANGE THIS
-
-    // 2) Disable past dates
+    const scriptURL = "https://script.google.com/macros/s/AKfycby2hOwVTirST53CPrauMe7N5xrn6yIcuexlS8f8jW_Y33ZseEkq4wQAal4yRziZJMoI/exec";
+    const form = document.getElementById("bookingForm");
     const dateInput = document.getElementById("date");
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    dateInput.min = `${yyyy}-${mm}-${dd}`;
+    const timeSelect = document.getElementById("time");
+    const statusEl = document.getElementById("status");
+    const overlay = document.getElementById("overlay");
 
-    const form = document.getElementById("appointmentForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const btnText = document.getElementById("btnText");
-    const msgBox = document.getElementById("msg");
+    // Disable past dates
+    dateInput.min = new Date().toISOString().split("T")[0];
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      msgBox.textContent = "";
-      msgBox.className = "msg";
-
-      // Basic validation
-      const name  = form.name.value.trim();
-      const phone = form.phone.value.trim();
-      const date  = form.date.value;
-      const time  = form.time.value;
-
-      if (!name || !phone || !date || !time) {
-        showError("Please fill all fields.");
-        return;
+    // Generate 10-minute time slots
+    function generateTimeSlots(start, end) {
+      const slots = [];
+      const startTime = new Date(`1970-01-01T${start}:00`);
+      const endTime = new Date(`1970-01-01T${end}:00`);
+      while (startTime < endTime) {
+        const from = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        startTime.setMinutes(startTime.getMinutes() + 10);
+        const to = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        slots.push(`${from} - ${to}`);
       }
-      if (!/^\d{10}$/.test(phone)) {
-        showError("Phone must be a 10-digit number.");
-        return;
-      }
+      return slots;
+    }
 
-      // Show loader
-      submitBtn.disabled = true;
-      btnText.innerHTML = '<span class="loader"></span>Booking...';
+    dateInput.addEventListener("change", () => {
+      const selectedDate = dateInput.value;
+      const day = new Date(selectedDate).getDay();
+      let allSlots = (day === 0)
+        ? generateTimeSlots("11:00", "17:00")  // Sunday
+        : [...generateTimeSlots("11:00", "16:00"), ...generateTimeSlots("18:00", "23:00")];
 
-      try {
-        const res = await fetch(`${BACKEND_URL}/book`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, phone, date, time })
+      // Fetch booked slots
+      fetch(scriptURL)
+        .then(res => res.json())
+        .then(booked => {
+          const available = allSlots.filter(slot => !booked.includes(`${selectedDate}|${slot}`));
+          timeSelect.innerHTML = "";
+
+          if (available.length === 0) {
+            timeSelect.innerHTML = '<option disabled>No slots available / वेळ उपलब्ध नाही</option>';
+          } else {
+            available.forEach(slot => {
+              const opt = document.createElement("option");
+              opt.value = slot;
+              opt.textContent = slot;
+              timeSelect.appendChild(opt);
+            });
+          }
+        })
+        .catch(() => {
+          timeSelect.innerHTML = '<option disabled>Error loading slots</option>';
         });
-
-        const result = await res.json();
-
-        if (res.ok) {
-          showSuccess(
-            `✅ ${result.message}.<br>
-             <strong>Token:</strong> ${result.appointment?.token ?? 'N/A'}<br>
-             <strong>Date:</strong> ${result.appointment?.appointment_date}<br>
-             <strong>Time:</strong> ${result.appointment?.appointment_time}`
-          );
-
-          form.reset();
-        } else {
-          showError(result.error || "Something went wrong.");
-        }
-      } catch (error) {
-        showError(error.message || "Network error.");
-      } finally {
-        submitBtn.disabled = false;
-        btnText.textContent = "Book Now";
-      }
     });
 
-    function showSuccess(html) {
-      msgBox.innerHTML = html;
-      msgBox.className = "msg success";
-    }
-    function showError(text) {
-      msgBox.textContent = text;
-      msgBox.className = "msg error";
-    }
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      overlay.style.display = "flex"; // Show loader
+      statusEl.textContent = "";
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: new FormData(form)
+      })
+      .then(res => res.text())
+      .then(response => {
+        overlay.style.display = "none";
+        if (response === "SUCCESS") {
+          const name = form.name.value;
+          const date = form.date.value;
+          const time = form.time.value;
+          window.location.href = `success.html?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`;
+        } else if (response === "ALREADY_BOOKED") {
+          statusEl.textContent = "❌ This slot is already booked. Please choose another. / वेळ आधीच आरक्षित आहे.";
+        } else {
+          statusEl.textContent = "⚠️ Something went wrong. Please try again.";
+        }
+      })
+      .catch(() => {
+        overlay.style.display = "none";
+        statusEl.textContent = "⚠️ Network error. Please try again.";
+      });
+    });
+
+    dateInput.addEventListener("change", () => {
+  const selectedDate = dateInput.value;
+  const today = new Date().toISOString().split("T")[0];
+  const now = new Date();
+  const selectedDay = new Date(selectedDate).getDay();
+
+  let allSlots = selectedDay === 0
+    ? generateTimeSlots("11:00", "17:00")  // Sunday
+    : [...generateTimeSlots("11:00", "16:00"), ...generateTimeSlots("18:00", "23:00")];  // Mon–Sat
+
+  // Filter out past time slots if today is selected
+  if (selectedDate === today) {
+    const currentTime = now.getHours() * 60 + now.getMinutes(); // current time in minutes
+    allSlots = allSlots.filter(slot => {
+      const slotStart = slot.split(" - ")[0];
+      const [hours, minutes, period] = slotStart.match(/(\d+):(\d+)\s*(AM|PM)/i).slice(1);
+      let hrs = parseInt(hours);
+      if (period.toUpperCase() === "PM" && hrs !== 12) hrs += 12;
+      if (period.toUpperCase() === "AM" && hrs === 12) hrs = 0;
+      const totalMins = hrs * 60 + parseInt(minutes);
+      return totalMins > currentTime;
+    });
+  }
+
+  fetch(scriptURL)
+    .then(res => res.json())
+    .then(booked => {
+      timeSelect.innerHTML = "";
+      const available = allSlots.filter(slot => !booked.includes(`${selectedDate}|${slot}`));
+      if (available.length === 0) {
+        timeSelect.innerHTML = '<option disabled>No slots available / वेळ उपलब्ध नाही</option>';
+      } else {
+        available.forEach(slot => {
+          const opt = document.createElement("option");
+          opt.value = slot;
+          opt.textContent = slot;
+          timeSelect.appendChild(opt);
+        });
+      }
+    });
+});
+
   </script>
+<script>
+  // Load loader.html and inject it into the page
+  fetch("loader.html")
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById("custom-loader-placeholder").innerHTML = html;
+    });
+
+  // Hide loader on page load
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      const loader = document.getElementById("custom-loader");
+      if (loader) loader.style.display = "none";
+    }, 1000); // 1 second delay for better UX
+  });
+</script>
+
 </body>
 </html>
