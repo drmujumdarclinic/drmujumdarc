@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Appointment</title>
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color-scheme: light dark;
+    }
+    body {
+      margin: 0;
+      background: #f7f9fc;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      padding: 24px 22px 28px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+    p.subtitle {
+      margin: 0 0 18px;
+      color: #666;
+      font-size: .9rem;
+    }
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-size: .9rem;
+      color: #222;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #d7dce4;
+      background: #fff;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+    }
+    button {
+      margin-top: 18px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .msg {
+      margin-top: 14px;
+      font-size: .92rem;
+    }
+    .msg.success { color: #0f766e; }
+    .msg.error   { color: #b91c1c; }
+    .loader {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    small.hint {
+      color: #777;
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Book Appointment</h1>
+    <p class="subtitle">Fill in your details to reserve a slot.</p>
+
+    <form id="appointmentForm" novalidate>
+      <label for="name">Full Name</label>
+      <input id="name" name="name" type="text" required placeholder="e.g. Rahul Patil" />
+
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel" required pattern="[0-9]{10}" placeholder="10-digit number" />
+      <small class="hint">Enter a 10-digit mobile number</small>
+
+      <label for="date">Date</label>
+      <input id="date" name="date" type="date" required />
+
+      <label for="time">Time</label>
+      <select id="time" name="time" required>
+        <!-- Example slot list — adjust as you wish -->
+        <option value="">-- Select a time --</option>
+        <option>11:00</option>
+        <option>11:10</option>
+        <option>11:20</option>
+        <option>11:30</option>
+        <option>11:40</option>
+        <option>11:50</option>
+        <option>12:00</option>
+        <option>12:10</option>
+        <option>12:20</option>
+        <option>12:30</option>
+        <option>18:00</option>
+        <option>18:10</option>
+        <option>18:20</option>
+        <option>18:30</option>
+        <option>18:40</option>
+        <option>18:50</option>
+        <option>19:00</option>
+        <option>19:10</option>
+        <option>19:20</option>
+        <option>19:30</option>
+        <option>19:40</option>
+        <option>19:50</option>
+        <option>20:00</option>
+        <!-- ... add the full list of 10‑minute slots you use -->
+      </select>
+
+      <button id="submitBtn" type="submit">
+        <span id="btnText">Book Now</span>
+      </button>
+
+      <div id="msg" class="msg"></div>
+    </form>
+  </div>
+
+  <script>
+    // 1) Put your backend URL here
+    const BACKEND_URL = "https://1f052639-5433-495b-8445-7040e3be3083-00-3azzpjpj40e2u.pike.replit.dev/"; // <-- CHANGE THIS
+
+    // 2) Disable past dates
+    const dateInput = document.getElementById("date");
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+    const form = document.getElementById("appointmentForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+    const msgBox = document.getElementById("msg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msgBox.textContent = "";
+      msgBox.className = "msg";
+
+      // Basic validation
+      const name  = form.name.value.trim();
+      const phone = form.phone.value.trim();
+      const date  = form.date.value;
+      const time  = form.time.value;
+
+      if (!name || !phone || !date || !time) {
+        showError("Please fill all fields.");
+        return;
+      }
+      if (!/^\d{10}$/.test(phone)) {
+        showError("Phone must be a 10-digit number.");
+        return;
+      }
+
+      // Show loader
+      submitBtn.disabled = true;
+      btnText.innerHTML = '<span class="loader"></span>Booking...';
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/book`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, phone, date, time })
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          showSuccess(
+            `✅ ${result.message}.<br>
+             <strong>Token:</strong> ${result.appointment?.token ?? 'N/A'}<br>
+             <strong>Date:</strong> ${result.appointment?.appointment_date}<br>
+             <strong>Time:</strong> ${result.appointment?.appointment_time}`
+          );
+
+          form.reset();
+        } else {
+          showError(result.error || "Something went wrong.");
+        }
+      } catch (error) {
+        showError(error.message || "Network error.");
+      } finally {
+        submitBtn.disabled = false;
+        btnText.textContent = "Book Now";
+      }
+    });
+
+    function showSuccess(html) {
+      msgBox.innerHTML = html;
+      msgBox.className = "msg success";
+    }
+    function showError(text) {
+      msgBox.textContent = text;
+      msgBox.className = "msg error";
+    }
+  </script>
+</body>
+</html>
