@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appointment Successful – Dr. Mujumdar Clinic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; background: #e3f2fd; margin: 0; padding: 0; }
+    .ticker-wrapper { background: #fff3e0; padding: 10px; color: #d84315; overflow: hidden; white-space: nowrap; }
+    .ticker-wrapper span { display: inline-block; animation: scroll 18s linear infinite; font-weight: bold; }
+    @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    .container { max-width: 600px; margin: 60px auto; background: white; padding: 30px; border-radius: 10px; text-align: center; }
+    h2 { color: #2e7d32; }
+    .info { margin-top: 20px; font-size: 18px; }
+    .back-btn { margin-top: 30px; display: inline-block; padding: 10px 20px; background: #1565c0; color: white; text-decoration: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<div class="ticker-wrapper">
+  <span>🎉 Appointment booked successfully! | अपॉइंटमेंट यशस्वीरीत्या बुक झाला आहे! | Thank you for choosing Dr. Mujumdar Clinic.</span>
+</div>
+
+<div class="container">
+  <h2>Thank You! / धन्यवाद!</h2>
+  <p class="info" id="appt-info">Your appointment has been confirmed.</p>
+  <a class="back-btn" href="index.html">← Back to Home / परत मुख्यपृष्ठावर</a>
+</div>
+
+<script>
+  const url = new URLSearchParams(window.location.search);
+  const name = url.get("name");
+  const date = url.get("date");
+  const time = url.get("time");
+  document.getElementById("appt-info").innerHTML = `
+    Dear <strong>${name}</strong>,<br>
+    Your appointment on <strong>${date}</strong> at <strong>${time}</strong> is confirmed.<br><br>
+    We look forward to seeing you! <br> आम्ही तुमची वाट पाहत आहोत!
+  `;
+</script>
+
+</body>
+</html>
