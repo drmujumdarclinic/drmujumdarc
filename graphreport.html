@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NEET Tracker - Performance Graph Canvas</title>
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body { background: #f8fafc; font-family: system-ui, sans-serif; padding: 2rem; color: #1e293b; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .btn-back { display: inline-block; margin-bottom: 1.5rem; text-decoration: none; color: #2563eb; font-weight: bold; }
+        .chart-box { background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .header-flex { display: flex; justify-content: border-between; align-items: center; margin-bottom: 1.5rem; }
+        .dl-btn { padding: 0.5rem 1rem; background: #0f172a; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .wrapper { height: 400px; width: 100%; position: relative; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="neet-portal.html" class="btn-back">← Back to Hub</a>
+        
+        <div class="chart-box">
+            <div class="header-flex">
+                <h2>📈 Accuracy Scale Trend Vector Analytics</h2>
+                <button class="dl-btn" onclick="downloadChart()">💾 Download Performance Graph</button>
+            </div>
+            <div class="wrapper">
+                <canvas id="canvas-engine"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scores = JSON.parse(localStorage.getItem('neet_scores_v4')) || [];
+        let chartInstance = null;
+
+        function buildGraph() {
+            const ctx = document.getElementById('canvas-engine').getContext('2d');
+            
+            if(scores.length === 0) {
+                ctx.font = "16px sans-serif";
+                ctx.fillStyle = "#64748b";
+                ctx.textAlign = "center";
+                ctx.fillText("No test metrics logged yet. Go to the Score Tracker to input your marks.", canvasEl.width/2, 200);
+                return;
+            }
+
+            const labels = scores.map(s => `${s.type}: ${s.name}`);
+            const userPct = scores.map(s => ((s.obt / s.max) * 100).toFixed(1));
+            const topperPct = scores.map(s => ((s.top / s.max) * 100).toFixed(1));
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Your Accuracy %', data: userPct, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.05)', borderWidth: 3, tension: 0.2, fill: true, pointRadius: 5 },
+                        { label: 'Topper Accuracy %', data: topperPct, borderColor: '#94a3b8', borderWidth: 2, borderDash: [5,5], tension: 0.1, pointRadius: 3, fill: false }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 100, ticks: { callback: v => v + "%", font: { weight: '600' } } }
+                    }
+                }
+            });
+        }
+
+        function downloadChart() {
+            if(!chartInstance || scores.length === 0) { alert("No data available to export."); return; }
+            const link = document.createElement('a');
+            link.download = `NEET_Performance_Graph_${Date.now()}.png`;
+            link.href = chartInstance.toBase64Image();
+            link.click();
+        }
+
+        // Wait explicitly for browser mapping layout to render safely
+        window.addEventListener('DOMContentLoaded', buildGraph);
+    </script>
+</body>
+</html>
