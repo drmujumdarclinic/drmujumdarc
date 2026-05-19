@@ -3,63 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEET UG Administrative Control Terminal</title>
+    <title>NEET UG Pro-Tracker Console Terminal</title>
     <style>
-        :root { --bg: #0f172a; --panel: #1e293b; --accent: #2563eb; --text: #f8fafc; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; }
-        
-        #auth-gate { text-align: center; background: var(--panel); padding: 3rem; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); width: 100%; max-width: 400px; }
-        input { width: 100%; padding: 0.8rem; margin: 1rem 0; border-radius: 8px; border: 1px solid #475569; background: var(--bg); color: #fff; text-align: center; font-weight: bold; font-size: 1.1rem; outline: none; }
-        button { width: 100%; padding: 0.8rem; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        
-        #main-hub { display: none; width: 100%; max-width: 900px; padding: 2rem; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .card { background: var(--panel); padding: 2.5rem; border-radius: 12px; border: 1px solid #334155; cursor: pointer; transition: transform 0.2s, background 0.2s; text-decoration: none; color: var(--text); display: block; }
-        .card:hover { transform: translateY(-5px); background: #24344d; border-color: var(--accent); }
-        .card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
-        .card p { color: #94a3b8; font-size: 0.9rem; }
+        :root {
+            --bg-primary: #f8fafc;
+            --sidebar-bg: #0f172a;
+            --panel-bg: #ffffff;
+            --text-main: #1e293b;
+            --accent-primary: #2563eb;
+            --border-color: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg-primary); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        #auth-overlay { position: fixed; inset: 0; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); display: flex; justify-content: center; align-items: center; z-index: 99999; }
+        .login-box { background: var(--panel-bg); padding: 3rem; border-radius: 16px; width: 100%; max-width: 440px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .login-box input { width: 100%; padding: 0.85rem; margin-bottom: 1.25rem; border: 2px solid var(--border-color); border-radius: 8px; text-align: center; font-weight: bold; font-size: 1.1rem; outline: none; }
+        .login-box button { width: 100%; padding: 0.85rem; background: var(--accent-primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        #app-layout { display: none; width: 100%; height: 100%; }
+        sidebar { width: 280px; background: var(--sidebar-bg); color: white; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+        .logo-area h3 { font-size: 1.35rem; color: #f8fafc; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 10px; }
+        .nav-links { list-style: none; }
+        .nav-item { padding: 0.85rem 1.2rem; border-radius: 8px; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 12px; color: #94a3b8; font-weight: 500; text-decoration: none; transition: 0.2s; }
+        .nav-item:hover, .nav-item.active { background: #1e293b; color: #fff; transform: translateX(4px); }
+        .logout-btn { background: #dc2626; color: white; border: none; padding: 0.75rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        header { background: var(--panel-bg); padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .workspace-welcome { padding: 3rem; max-width: 800px; }
+        .welcome-card { background: white; border: 1px solid var(--border-color); padding: 2rem; border-radius: 12px; margin-top: 1.5rem; line-height: 1.6; }
     </style>
 </head>
 <body>
 
-    <div id="auth-gate">
-        <h2>🩺 Clinical NEET Portal</h2>
-        <input type="password" id="pin" placeholder="ENTER PORTAL PIN">
-        <button onclick="unlock()">Unlock Dashboard</button>
-    </div>
-
-    <div id="main-hub">
-        <h2>Academic Execution Control Terminal</h2>
-        <p style="color: #94a3b8; margin-top: 0.5rem;">Select functional ecosystem module:</p>
-        <div class="grid">
-            <a href="scoretracking.html" class="card">
-                <h3>📊 Score Tracker & Logger</h3>
-                <p>Input new mock marks, SBT, OFT, or BMT metrics.</p>
-            </a>
-            <a href="graphreport.html" class="card">
-                <h3>📈 Performance Analytics</h3>
-                <p>View trend vectors and download performance charts.</p>
-            </a>
-            <a href="documentvault.html" class="card">
-                <h3>📁 Document Vault</h3>
-                <p>Manage and access local internal site text PDFs.</p>
-            </a>
-            <a href="papertyper.html" class="card">
-                <h3>📝 Question Paper Typer</h3>
-                <p>Draft fast physics, chemistry, and biology test papers.</p>
-            </a>
+    <div id="auth-overlay">
+        <div class="login-box">
+            <h2>🩺 Clinical NEET Portal</h2>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">Restricted Academic Interface Framework</p>
+            <input type="password" id="access-pass" placeholder="ENTER PORTAL PIN">
+            <button onclick="verifyAccess()">Unlock Terminal</button>
         </div>
     </div>
 
+    <div id="app-layout">
+        <sidebar>
+            <div class="logo-area">
+                <h3>🧬 NEET UG Terminal</h3>
+                <ul class="nav-links">
+                    <a href="#" class="nav-item active">📊 Hub Command Center</a>
+                    <a href="scoretracking.html" class="nav-item">📝 Score Entry Matrix</a>
+                    <a href="graphreport.html" class="nav-item">📈 Performance Graph</a>
+                    <a href="errorlog.html" class="nav-item">❌ NEET Mistake Log</a>
+                    <a href="papertyper.html" class="nav-item">📜 Question Exam Typer</a>
+                </ul>
+            </div>
+            <button class="logout-btn" onclick="globalSecureLogout()">Secure Lock Terminal</button>
+        </sidebar>
+
+        <main>
+            <header>
+                <h2>Command Center Overview Hub</h2>
+                <div style="font-weight: 600; color: #64748b; background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Active Session Validation Stable</div>
+            </header>
+            <div class="workspace-welcome">
+                <h1>Welcome, Doctor</h1>
+                <p style="color: #64748b; margin-top: 0.25rem;">Your synchronized medical-academic preparation engine is active.</p>
+                
+                <div class="welcome-card">
+                    <h3 style="margin-bottom: 0.5rem; color: var(--accent-primary);">⚡ Performance Metrics Ready</h3>
+                    <p>Use the navigation panel on the left to seamlessly switch between operational sub-modules. Your login authentication state will stay synchronized across all active sub-tabs without locking you out between screens.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="security-shield.js"></script>
     <script>
-        const PIN = "NEET2026";
-        function unlock() {
-            if(document.getElementById('pin').value === PIN) {
-                document.getElementById('auth-gate').style.display = 'none';
-                document.getElementById('main-hub').style.display = 'block';
-            } else { alert("Invalid PIN"); }
+        const CRITICAL_PORTAL_PIN = "NEET2026";
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if(sessionStorage.getItem('neet_portal_session_active') === 'true') {
+                showDashboardInterface();
+            }
+        });
+
+        function verifyAccess() {
+            const entryValue = document.getElementById('access-pass').value;
+            if(entryValue === CRITICAL_PORTAL_PIN) {
+                sessionStorage.setItem('neet_portal_session_active', 'true');
+                showDashboardInterface();
+            } else {
+                alert("ACCESS TERMINATED: Invalid Administrative Security Key Pin.");
+            }
+        }
+
+        function showDashboardInterface() {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('app-layout').style.display = 'flex';
         }
     </script>
 </body>
 </html>
+
