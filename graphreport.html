@@ -2,81 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NEET Tracker - Performance Graph Canvas</title>
+    <title>NEET Tracker - Vector Graph Canvas Report</title>
     <script src="https://jsdelivr.net"></script>
     <style>
-        body { background: #f8fafc; font-family: system-ui, sans-serif; padding: 2rem; color: #1e293b; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .btn-back { display: inline-block; margin-bottom: 1.5rem; text-decoration: none; color: #2563eb; font-weight: bold; }
-        .chart-box { background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .header-flex { display: flex; justify-content: border-between; align-items: center; margin-bottom: 1.5rem; }
+        :root { --bg-primary: #f8fafc; --sidebar-bg: #0f172a; --panel-bg: #ffffff; --text-main: #1e293b; --accent-primary: #2563eb; --border-color: #e2e8f0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg-primary); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        sidebar { width: 280px; background: var(--sidebar-bg); color: white; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+        .nav-item { padding: 0.85rem 1.2rem; border-radius: 8px; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 12px; color: #94a3b8; font-weight: 500; text-decoration: none; }
+        .nav-item:hover, .nav-item.active { background: #1e293b; color: #fff; }
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        header { background: var(--panel-bg); padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .content-view { padding: 2.5rem; overflow-y: auto; flex: 1; }
+        .chart-box { background: white; padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); position: relative; }
+        .chart-container { height: 420px; width: 100%; position: relative; }
         .dl-btn { padding: 0.5rem 1rem; background: #0f172a; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
-        .wrapper { height: 400px; width: 100%; position: relative; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="neet-portal.html" class="btn-back">← Back to Hub</a>
-        
-        <div class="chart-box">
-            <div class="header-flex">
-                <h2>📈 Accuracy Scale Trend Vector Analytics</h2>
-                <button class="dl-btn" onclick="downloadChart()">💾 Download Performance Graph</button>
-            </div>
-            <div class="wrapper">
-                <canvas id="canvas-engine"></canvas>
+
+    <sidebar>
+        <div class="logo-area">
+            <h3 style="color:white; margin-bottom:2.5rem;">🧬 NEET UG Terminal</h3>
+            <ul class="nav-links">
+                <a href="neet-portal.html" class="nav-item">📊 Hub Command Center</a>
+                <a href="scoretracking.html" class="nav-item">📝 Score Entry Matrix</a>
+                <a href="#" class="nav-item active">📈 Performance Graph</a>
+                <a href="errorlog.html" class="nav-item">❌ NEET Mistake Log</a>
+                <a href="papertyper.html" class="nav-item">📜 Question Exam Typer</a>
+            </ul>
+        </div>
+        <button style="background:#dc2626; color:white; border:none; padding:0.75rem; border-radius:8px; cursor:pointer;" onclick="globalSecureLogout()">Secure Lock</button>
+    </sidebar>
+
+    <main>
+        <header><h2>Analytics Reporting Vector</h2></header>
+        <div class="content-view">
+            <div class="chart-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                    <h3>Accuracy Percentage Tracking Trend Vector</h3>
+                    <button class="dl-btn" onclick="exportGraph()">💾 Export Performance Chart Vector</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="canvasChartEngine"></canvas>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
+    <script src="security-shield.js"></script>
     <script>
-        const scores = JSON.parse(localStorage.getItem('neet_scores_v4')) || [];
+        let scoreDatabase = JSON.parse(localStorage.getItem('neet_scores_synchronized_v5')) || [];
         let chartInstance = null;
 
-        function buildGraph() {
-            const ctx = document.getElementById('canvas-engine').getContext('2d');
+        function initializeChartEngine() {
+            const ctx = document.getElementById('canvasChartEngine').getContext('2d');
             
-            if(scores.length === 0) {
-                ctx.font = "16px sans-serif";
+            if (scoreDatabase.length === 0) {
+                ctx.font = "16px 'Segoe UI'";
                 ctx.fillStyle = "#64748b";
                 ctx.textAlign = "center";
-                ctx.fillText("No test metrics logged yet. Go to the Score Tracker to input your marks.", canvasEl.width/2, 200);
+                ctx.fillText("No analytical test metrics found inside memory. Add tests inside the Score Entry page.", ctx.canvas.width / 2, 200);
                 return;
             }
 
-            const labels = scores.map(s => `${s.type}: ${s.name}`);
-            const userPct = scores.map(s => ((s.obt / s.max) * 100).toFixed(1));
-            const topperPct = scores.map(s => ((s.top / s.max) * 100).toFixed(1));
+            const labels = scoreDatabase.map(item => `${item.classification}: ${item.name}`);
+            const personalData = scoreDatabase.map(item => ((item.obtained / item.maxTotal) * 100).toFixed(1));
+            const topperData = scoreDatabase.map(item => ((item.highest / item.maxTotal) * 100).toFixed(1));
 
             chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Your Accuracy %', data: userPct, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.05)', borderWidth: 3, tension: 0.2, fill: true, pointRadius: 5 },
-                        { label: 'Topper Accuracy %', data: topperPct, borderColor: '#94a3b8', borderWidth: 2, borderDash: [5,5], tension: 0.1, pointRadius: 3, fill: false }
+                        { label: 'Your Accuracy % Curve', data: personalData, borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.06)', borderWidth: 3, tension: 0.2, fill: true, pointRadius: 5 },
+                        { label: 'Topper Accuracy % Curve', data: topperData, borderColor: '#94a3b8', borderDash:, borderWidth: 2, fill: false, pointRadius: 3 }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { min: 0, max: 100, ticks: { callback: v => v + "%", font: { weight: '600' } } }
+                        y: { min: 0, max: 100, ticks: { callback: value => value + "%", font: { weight: '600' } } }
                     }
                 }
             });
         }
 
-        function downloadChart() {
-            if(!chartInstance || scores.length === 0) { alert("No data available to export."); return; }
-            const link = document.createElement('a');
-            link.download = `NEET_Performance_Graph_${Date.now()}.png`;
-            link.href = chartInstance.toBase64Image();
-            link.click();
+        function exportGraph() {
+            if(!chartInstance || scoreDatabase.length === 0) { alert("No visible matrix lines to export."); return; }
+            const pipe = document.createElement('a');
+            pipe.download = `NEET_UG_Performance_Chart_Export_${Date.now()}.png`;
+            pipe.href = chartInstance.toBase64Image();
+            pipe.click();
         }
 
-        // Wait explicitly for browser mapping layout to render safely
-        window.addEventListener('DOMContentLoaded', buildGraph);
+        window.addEventListener('DOMContentLoaded', initializeChartEngine);
     </script>
 </body>
 </html>
