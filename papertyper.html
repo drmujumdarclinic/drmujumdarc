@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NEET UG Question Paper Fast-Typer Suite</title>
+    <style>
+        body { background: #f1f5f9; font-family: 'Segoe UI', sans-serif; padding: 2rem; }
+        .wrapper { max-width: 1200px; margin: 0 auto; display: flex; gap: 2rem; }
+        .left-editor { flex: 1; background: white; padding: 2rem; border-radius: 12px; border: 1px solid #cbd5e1; }
+        .right-preview { flex: 1; background: white; padding: 3rem; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); min-height: 700px; }
+        .back { display: block; margin-bottom: 1rem; color: #2563eb; text-decoration: none; font-weight: bold; }
+        
+        textarea { width: 100%; height: 280px; font-family: monospace; padding: 1rem; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.95rem; resize: vertical; outline: none; }
+        textarea:focus { border-color: #2563eb; }
+        
+        .macro-row { margin: 1rem 0; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .macro-btn { padding: 0.4rem 0.8rem; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .macro-btn:hover { background: #cbd5e1; }
+        
+        .print-btn { width: 100%; padding: 0.75rem; background: #16a34a; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 1rem; font-size: 1rem; }
+        
+        /* Print Preview Typography Formatting Layout Framework Structure Style */
+        .paper-header { text-align: center; border-bottom: 3px double #000; padding-bottom: 1rem; margin-bottom: 2rem; }
+        .q-block { margin-bottom: 1.5rem; line-height: 1.6; font-size: 1.05rem; }
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-left: 1.5rem; margin-top: 0.25rem; font-weight: 500; }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .left-editor, .back { display: none; }
+            .right-preview { border: none; box-shadow: none; width: 100%; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="neet-portal.html" class="back">← Back to Hub</a>
+    
+    <div class="wrapper">
+        <!-- Input Editing Deck Workspace Panel component -->
+        <div class="left-editor">
+            <h2>📝 Fast Question Paper Compiler Engine</h2>
+            <p style="color:#64748b; font-size:0.85rem; margin-bottom:1rem;">Type your questions using shorthand, then use the template buttons below to insert structural layout elements instantly.</p>
+            
+            <div class="macro-row">
+                <button class="macro-btn" onclick="insertMacro('HEADER')">+ Add Exam Header</button>
+                <button class="macro-btn" onclick="insertMacro('Q')">+ Add Question Template</button>
+                <button class="macro-btn" onclick="insertMacro('BIO')">+ Biology Symbol (→)</button>
+                <button class="macro-btn" onclick="insertMacro('CHEM')">+ Chem Delta (Δ)</button>
+            </div>
+
+            <textarea id="raw-input" oninput="compilePaper()" placeholder="Type paper data here..."></textarea>
+            <button class="print-btn" onclick="window.print()">🖨️ Print / Save Paper PDF</button>
+        </div>
+
+        <!-- Output Rendering Viewport Panel component -->
+        <div class="right-preview" id="preview-panel">
+            <div class="paper-header">
+                <h2>DR. MUJUMDAR'S CLINIC PREP ACADEMY</h2>
+                <h3>NEET PRACTICE TEST MATRIX</h3>
+                <div style="display:flex; justify-content:space-between; margin-top:1rem; font-weight:600; font-size:0.9rem;">
+                    <span>Time: 60 Mins</span>
+                    <span>Max Marks: 180 Marks</span>
+                </div>
+            </div>
+            <div id="compiled-questions-target">
+                <!-- Injected via Markdown Engine dynamic formatting parser pipeline loop -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function insertMacro(type) {
+            const tx = document.getElementById('raw-input');
+            let text = '';
+            if(type === 'HEADER') {
+                text = "[HEADER]\nTITLE: Grand Mock Exam Series\nSUB: Physics & Chemistry Section\nTIME: 3 Hours | MARKS: 720\n[END_HEADER]\n\n";
+            } else if(type === 'Q') {
+                text = "[Q] Which of the following organelles is known as the powerhouse of the cell?\n(A) Ribosome\n(B) Mitochondria\n(C) Lysosome\n(D) Golgi Complex\n";
+            } else if(type === 'BIO') { text = " → "; }
+            else if(type === 'CHEM') { text = " Δ "; }
+            
+            const start = tx.selectionStart;
+            tx.value = tx.value.substring(0, start) + text + tx.value.substring(tx.selectionEnd);
+            tx.focus();
+            compilePaper();
+        }
+
+        function compilePaper() {
+            const raw = document.getElementById('raw-input').value;
+            const target = document.getElementById('compiled-questions-target');
+            
+            // Clean template reset loop 
+            target.innerHTML = '';
+            
+            const lines = raw.split('\n');
+            let currentQuestionText = '';
+            let options = [];
+            let questionCounter = 1;
+
+            for(let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                
+                if(line.startsWith('[Q]')) {
+                    if(currentQuestionText) {
+                        renderQuestionBlock(target, questionCounter++, currentQuestionText, options);
+                    }
+                    currentQuestionText = line.substring(3).trim();
+                    options = [];
+                } else if (line.startsWith('(A)') || line.startsWith('(B)') || line.startsWith('(C)') || line.startsWith('(D)')) {
+                    options.push(line);
+                } else if (line !== '' && !line.startsWith('[HEADER]') && !line.startsWith('[END_HEADER]')) {
+                    if(currentQuestionText && options.length === 0) {
+                        currentQuestionText += "<br>" + line;
+                    }
+                }
+            }
+            // Render trailing questions residual buffer elements
+            if(currentQuestionText) {
+                renderQuestionBlock(target, questionCounter, currentQuestionText, options);
+            }
+        }
+
+        function renderQuestionBlock(target, num, qText, opts) {
+            let optionsHTML = '';
+            if(opts.length > 0) {
+                optionsHTML = '<div class="options-grid">';
+                opts.forEach(o => { optionsHTML += `<span>${o}</span>`; });
+                optionsHTML += '</div>';
+            }
+            
+            const block = `<div class="q-block">
+                <strong>Q.${num}</strong> ${qText}
+                ${optionsHTML}
+            </div>`;
+            target.innerHTML += block;
+        }
+    </script>
+</body>
+</html>
