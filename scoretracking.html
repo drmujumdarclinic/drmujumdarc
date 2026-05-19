@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NEET Tracker - Score Logger</title>
+    <style>
+        body { background: #f8fafc; font-family: system-ui, sans-serif; padding: 2rem; color: #1e293b; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .btn-back { display: inline-block; margin-bottom: 1.5rem; text-decoration: none; color: #2563eb; font-weight: bold; }
+        form { background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 2rem; }
+        .group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 150px; }
+        input, select { padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; }
+        button { padding: 0.6rem 1.5rem; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-size: 0.85rem; color: #64748b; text-transform: uppercase; }
+        .del-btn { color: #dc2626; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="neet-portal.html" class="btn-back">← Back to Hub</a>
+        <h2>📊 Mock Test Score Matrix Logger</h2>
+        
+        <form onsubmit="saveScore(event)">
+            <div class="group">
+                <label>Type</label>
+                <select id="type" required>
+                    <option value="SBT">SBT</option><option value="OFT">OFT</option>
+                    <option value="BMT">BMT</option><option value="RRT">RRT</option>
+                    <option value="MODEL">MODEL</option><option value="REVISION">REVISION</option>
+                </select>
+            </div>
+            <div class="group" style="flex: 2;">
+                <label>Exam Name</label>
+                <input type="text" id="name" placeholder="e.g., Physics Mechanics I" required>
+            </div>
+            <div class="group">
+                <label>Total Max Marks</label>
+                <input type="number" id="max" placeholder="e.g., 720" required>
+            </div>
+            <div class="group">
+                <label>Your Score</label>
+                <input type="number" id="obt" placeholder="Obtained" required>
+            </div>
+            <div class="group">
+                <label>Topper Score</label>
+                <input type="number" id="top" placeholder="Highest" required>
+            </div>
+            <button type="submit">Log Score</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Exam Name</th><th>Your Score</th><th>Topper Score</th><th>Efficiency %</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let scores = JSON.parse(localStorage.getItem('neet_scores_v4')) || [];
+        
+        function saveScore(e) {
+            e.preventDefault();
+            const entry = {
+                id: Date.now(),
+                type: document.getElementById('type').value,
+                name: document.getElementById('name').value,
+                max: parseInt(document.getElementById('max').value),
+                obt: parseInt(document.getElementById('obt').value),
+                top: parseInt(document.getElementById('top').value)
+            };
+            if(entry.obt > entry.max || entry.top > entry.max) { alert("Scores cannot exceed max marks."); return; }
+            scores.push(entry);
+            localStorage.setItem('neet_scores_v4', JSON.stringify(scores));
+            document.querySelector('form').reset();
+            renderTable();
+        }
+
+        function deleteScore(id) {
+            scores = scores.filter(s => s.id !== id);
+            localStorage.setItem('neet_scores_v4', JSON.stringify(scores));
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            scores.forEach(s => {
+                const pct = ((s.obt / s.max) * 100).toFixed(1);
+                tbody.innerHTML += `<tr>
+                    <td><strong>${s.type}</strong></td>
+                    <td>${s.name}</td>
+                    <td style="color:#2563eb; font-weight:bold;">${s.obt}/${s.max}</td>
+                    <td>${s.top}</td>
+                    <td style="color:#16a34a; font-weight:bold;">${pct}%</td>
+                    <td><span class="del-btn" onclick="deleteScore(${s.id})">Delete</span></td>
+                </tr>`;
+            });
+        }
+        renderTable();
+    </script>
+</body>
+</html>
