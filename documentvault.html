@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NEET Tracker - Document Asset Vault</title>
+    <style>
+        body { background: #f8fafc; font-family: system-ui, sans-serif; padding: 2rem; color: #1e293b; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .btn-back { display: inline-block; margin-bottom: 1.5rem; text-decoration: none; color: #2563eb; font-weight: bold; }
+        form { background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 2rem; }
+        .group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px; }
+        input, select { padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; }
+        button { padding: 0.6rem 1.5rem; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .subject-column { background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .subject-column h3 { border-bottom: 3px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .phy h3 { border-color: #2563eb; color: #2563eb; }
+        .chem h3 { border-color: #ea580c; color: #ea580c; }
+        .bio h3 { border-color: #16a34a; color: #16a34a; }
+        .doc-item { background: #f8fafc; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #edf2f7; }
+        .doc-item a { text-decoration: none; color: #1e293b; font-weight: 600; font-size: 0.95rem; }
+        .doc-item a:hover { color: #2563eb; }
+        .del { color: #dc2626; cursor: pointer; font-weight: bold; font-size: 0.85rem; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="neet-portal.html" class="btn-back">← Back to Hub</a>
+        <h2>📁 Integrated Website Document Vault</h2>
+        
+        <form onsubmit="saveDoc(event)">
+            <div class="group">
+                <label>Subject</label>
+                <select id="subject" required>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Biology">Biology</option>
+                </select>
+            </div>
+            <div class="group" style="flex: 2;">
+                <label>Chapter Module Name</label>
+                <input type="text" id="chapter" placeholder="e.g., Cell: Unit of Life" required>
+            </div>
+            <div class="group" style="flex: 2;">
+                <label>Internal Website Relative Link</label>
+                <input type="text" id="url" placeholder="e.g., /neet-files/botany/cell.pdf" required>
+            </div>
+            <button type="submit">Vault Asset</button>
+        </form>
+
+        <div class="grid">
+            <div class="subject-column phy">
+                <h3>Physics</h3><div id="phy-list"></div>
+            </div>
+            <div class="subject-column chem">
+                <h3>Chemistry</h3><div id="chem-list"></div>
+            </div>
+            <div class="subject-column bio">
+                <h3>Biology</h3><div id="bio-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let vault = JSON.parse(localStorage.getItem('neet_vault_v4')) || [];
+
+        function saveDoc(e) {
+            e.preventDefault();
+            const doc = {
+                id: Date.now(),
+                subject: document.getElementById('subject').value,
+                chapter: document.getElementById('chapter').value,
+                url: document.getElementById('url').value
+            };
+            vault.push(doc);
+            localStorage.setItem('neet_vault_v4', JSON.stringify(vault));
+            document.querySelector('form').reset();
+            renderVault();
+        }
+
+        function deleteDoc(id) {
+            vault = vault.filter(d => d.id !== id);
+            localStorage.setItem('neet_vault_v4', JSON.stringify(vault));
+            renderVault();
+        }
+
+        function renderVault() {
+            document.getElementById('phy-list').innerHTML = '';
+            document.getElementById('chem-list').innerHTML = '';
+            document.getElementById('bio-list').innerHTML = '';
+
+            vault.forEach(d => {
+                let targetID = d.subject === 'Physics' ? 'phy-list' : d.subject === 'Chemistry' ? 'chem-list' : 'bio-list';
+                const element = `<div class="doc-item">
+                    <a href="${d.url}" target="_blank">📄 ${d.chapter}</a>
+                    <span class="del" onclick="deleteDoc(${d.id})">✕</span>
+                </div>`;
+                document.getElementById(targetID).innerHTML += element;
+            });
+        }
+        renderVault();
+    </script>
+</body>
+</html>
