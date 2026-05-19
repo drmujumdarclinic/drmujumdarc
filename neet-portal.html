@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET UG Administrative Control Terminal</title>
+    <style>
+        :root { --bg: #0f172a; --panel: #1e293b; --accent: #2563eb; --text: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; }
+        
+        #auth-gate { text-align: center; background: var(--panel); padding: 3rem; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); width: 100%; max-width: 400px; }
+        input { width: 100%; padding: 0.8rem; margin: 1rem 0; border-radius: 8px; border: 1px solid #475569; background: var(--bg); color: #fff; text-align: center; font-weight: bold; font-size: 1.1rem; outline: none; }
+        button { width: 100%; padding: 0.8rem; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        
+        #main-hub { display: none; width: 100%; max-width: 900px; padding: 2rem; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
+        .card { background: var(--panel); padding: 2.5rem; border-radius: 12px; border: 1px solid #334155; cursor: pointer; transition: transform 0.2s, background 0.2s; text-decoration: none; color: var(--text); display: block; }
+        .card:hover { transform: translateY(-5px); background: #24344d; border-color: var(--accent); }
+        .card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .card p { color: #94a3b8; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div id="auth-gate">
+        <h2>🩺 Clinical NEET Portal</h2>
+        <input type="password" id="pin" placeholder="ENTER PORTAL PIN">
+        <button onclick="unlock()">Unlock Dashboard</button>
+    </div>
+
+    <div id="main-hub">
+        <h2>Academic Execution Control Terminal</h2>
+        <p style="color: #94a3b8; margin-top: 0.5rem;">Select functional ecosystem module:</p>
+        <div class="grid">
+            <a href="scoretracking.html" class="card">
+                <h3>📊 Score Tracker & Logger</h3>
+                <p>Input new mock marks, SBT, OFT, or BMT metrics.</p>
+            </a>
+            <a href="graphreport.html" class="card">
+                <h3>📈 Performance Analytics</h3>
+                <p>View trend vectors and download performance charts.</p>
+            </a>
+            <a href="documentvault.html" class="card">
+                <h3>📁 Document Vault</h3>
+                <p>Manage and access local internal site text PDFs.</p>
+            </a>
+            <a href="papertyper.html" class="card">
+                <h3>📝 Question Paper Typer</h3>
+                <p>Draft fast physics, chemistry, and biology test papers.</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const PIN = "NEET2026";
+        function unlock() {
+            if(document.getElementById('pin').value === PIN) {
+                document.getElementById('auth-gate').style.display = 'none';
+                document.getElementById('main-hub').style.display = 'block';
+            } else { alert("Invalid PIN"); }
+        }
+    </script>
+</body>
+</html>
