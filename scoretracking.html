@@ -2,100 +2,127 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NEET Tracker - Score Logger</title>
+    <title>NEET Tracker - Score Logging Control Suite</title>
     <style>
-        body { background: #f8fafc; font-family: system-ui, sans-serif; padding: 2rem; color: #1e293b; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .btn-back { display: inline-block; margin-bottom: 1.5rem; text-decoration: none; color: #2563eb; font-weight: bold; }
-        form { background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 2rem; }
-        .group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 150px; }
-        input, select { padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; }
-        button { padding: 0.6rem 1.5rem; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        th { background: #f1f5f9; font-size: 0.85rem; color: #64748b; text-transform: uppercase; }
-        .del-btn { color: #dc2626; cursor: pointer; font-weight: bold; }
+        :root { --bg-primary: #f8fafc; --sidebar-bg: #0f172a; --panel-bg: #ffffff; --text-main: #1e293b; --accent-primary: #2563eb; --border-color: #e2e8f0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg-primary); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        sidebar { width: 280px; background: var(--sidebar-bg); color: white; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+        .nav-item { padding: 0.85rem 1.2rem; border-radius: 8px; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 12px; color: #94a3b8; font-weight: 500; text-decoration: none; }
+        .nav-item:hover, .nav-item.active { background: #1e293b; color: #fff; }
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        header { background: var(--panel-bg); padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .content-view { padding: 2.5rem; overflow-y: auto; flex: 1; }
+        .data-form { background: white; padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; gap: 1.25rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 2rem; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 150px; }
+        .form-group input, .form-group select { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; outline: none; }
+        .submit-btn { padding: 0.75rem 1.75rem; background: var(--accent-primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; height: 46px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
+        th, td { padding: 1.2rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: #f8fafc; font-size: 0.85rem; color: #64748b; text-transform: uppercase; }
+        .delete-link { color: #dc2626; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="neet-portal.html" class="btn-back">← Back to Hub</a>
-        <h2>📊 Mock Test Score Matrix Logger</h2>
-        
-        <form onsubmit="saveScore(event)">
-            <div class="group">
-                <label>Type</label>
-                <select id="type" required>
-                    <option value="SBT">SBT</option><option value="OFT">OFT</option>
-                    <option value="BMT">BMT</option><option value="RRT">RRT</option>
-                    <option value="MODEL">MODEL</option><option value="REVISION">REVISION</option>
-                </select>
-            </div>
-            <div class="group" style="flex: 2;">
-                <label>Exam Name</label>
-                <input type="text" id="name" placeholder="e.g., Physics Mechanics I" required>
-            </div>
-            <div class="group">
-                <label>Total Max Marks</label>
-                <input type="number" id="max" placeholder="e.g., 720" required>
-            </div>
-            <div class="group">
-                <label>Your Score</label>
-                <input type="number" id="obt" placeholder="Obtained" required>
-            </div>
-            <div class="group">
-                <label>Topper Score</label>
-                <input type="number" id="top" placeholder="Highest" required>
-            </div>
-            <button type="submit">Log Score</button>
-        </form>
 
-        <table>
-            <thead>
-                <tr><th>Type</th><th>Exam Name</th><th>Your Score</th><th>Topper Score</th><th>Efficiency %</th><th>Actions</th></tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-        </table>
-    </div>
+    <sidebar>
+        <div class="logo-area">
+            <h3 style="color:white; margin-bottom:2.5rem;">🧬 NEET UG Terminal</h3>
+            <ul class="nav-links">
+                <a href="neet-portal.html" class="nav-item">📊 Hub Command Center</a>
+                <a href="#" class="nav-item active">📝 Score Entry Matrix</a>
+                <a href="graphreport.html" class="nav-item">📈 Performance Graph</a>
+                <a href="errorlog.html" class="nav-item">❌ NEET Mistake Log</a>
+                <a href="papertyper.html" class="nav-item">📜 Question Exam Typer</a>
+            </ul>
+        </div>
+        <button style="background:#dc2626; color:white; border:none; padding:0.75rem; border-radius:8px; cursor:pointer;" onclick="globalSecureLogout()">Secure Lock</button>
+    </sidebar>
 
+    <main>
+        <header><h2>Mock Test Score Matrix Entry</h2></header>
+        <div class="content-view">
+            <form class="data-form" onsubmit="saveScore(event)">
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:600; color:#64748b;">CLASSIFICATION</label>
+                    <select id="scoreClass" required>
+                        <option value="SBT">SBT (Sub-Topic Test)</option>
+                        <option value="OFT">OFT (Objective Foundation Test)</option>
+                        <option value="BMT">BMT (Bi-Monthly Test)</option>
+                        <option value="RRT">RRT (Rapid Revision Test)</option>
+                        <option value="MODEL">MODEL Test (Full Syllabus)</option>
+                        <option value="REVISION">Revision Test</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex:1.5;">
+                    <label style="font-size:0.85rem; font-weight:600; color:#64748b;">EXAM IDENTIFIER TITLE</label>
+                    <input type="text" id="scoreName" placeholder="e.g., Grand Mock Test V" required>
+                </div>
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:600; color:#64748b;">MAX MARKS</label>
+                    <input type="number" id="scoreMax" placeholder="e.g., 720" required>
+                </div>
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:600; color:#64748b;">OBTAINED SCORE</label>
+                    <input type="number" id="scoreObtained" placeholder="Your Marks" required>
+                </div>
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:600; color:#64748b;">HIGHEST SCORE</label>
+                    <input type="number" id="scoreHighest" placeholder="Topper Marks" required>
+                </div>
+                <button type="submit" class="submit-btn">Log Metric</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr><th>Type</th><th>Exam Name</th><th>Your Score</th><th>Highest Score</th><th>Efficiency %</th><th>Execution</th></tr>
+                </thead>
+                <tbody id="scoreTableBody"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="security-shield.js"></script>
     <script>
-        let scores = JSON.parse(localStorage.getItem('neet_scores_v4')) || [];
-        
+        let scoreDatabase = JSON.parse(localStorage.getItem('neet_scores_synchronized_v5')) || [];
+
         function saveScore(e) {
             e.preventDefault();
             const entry = {
                 id: Date.now(),
-                type: document.getElementById('type').value,
-                name: document.getElementById('name').value,
-                max: parseInt(document.getElementById('max').value),
-                obt: parseInt(document.getElementById('obt').value),
-                top: parseInt(document.getElementById('top').value)
+                classification: document.getElementById('scoreClass').value,
+                name: document.getElementById('scoreName').value,
+                maxTotal: parseInt(document.getElementById('scoreMax').value),
+                obtained: parseInt(document.getElementById('scoreObtained').value),
+                highest: parseInt(document.getElementById('scoreHighest').value)
             };
-            if(entry.obt > entry.max || entry.top > entry.max) { alert("Scores cannot exceed max marks."); return; }
-            scores.push(entry);
-            localStorage.setItem('neet_scores_v4', JSON.stringify(scores));
-            document.querySelector('form').reset();
+            if(entry.obtained > entry.maxTotal || entry.highest > entry.maxTotal) { alert("Metric Error: Marks cannot exceed maximum target limits."); return; }
+            scoreDatabase.push(entry);
+            localStorage.setItem('neet_scores_synchronized_v5', JSON.stringify(scoreDatabase));
+            document.querySelector('.data-form').reset();
             renderTable();
         }
 
         function deleteScore(id) {
-            scores = scores.filter(s => s.id !== id);
-            localStorage.setItem('neet_scores_v4', JSON.stringify(scores));
-            renderTable();
+            if(confirm("Purge selection permanently?")) {
+                scoreDatabase = scoreDatabase.filter(s => s.id !== id);
+                localStorage.setItem('neet_scores_synchronized_v5', JSON.stringify(scoreDatabase));
+                renderTable();
+            }
         }
 
         function renderTable() {
-            const tbody = document.getElementById('table-body');
+            const tbody = document.getElementById('scoreTableBody');
             tbody.innerHTML = '';
-            scores.forEach(s => {
-                const pct = ((s.obt / s.max) * 100).toFixed(1);
+            scoreDatabase.forEach(item => {
+                const percentage = ((item.obtained / item.maxTotal) * 100).toFixed(1);
                 tbody.innerHTML += `<tr>
-                    <td><strong>${s.type}</strong></td>
-                    <td>${s.name}</td>
-                    <td style="color:#2563eb; font-weight:bold;">${s.obt}/${s.max}</td>
-                    <td>${s.top}</td>
-                    <td style="color:#16a34a; font-weight:bold;">${pct}%</td>
-                    <td><span class="del-btn" onclick="deleteScore(${s.id})">Delete</span></td>
+                    <td><strong>${item.classification}</strong></td>
+                    <td>${item.name}</td>
+                    <td style="color:#2563eb; font-weight:bold;">${item.obtained} / ${item.maxTotal}</td>
+                    <td>${item.highest}</td>
+                    <td style="color:#16a34a; font-weight:bold;">${percentage}%</td>
+                    <td><span class="delete-link" onclick="deleteScore(${item.id})">Remove</span></td>
                 </tr>`;
             });
         }
@@ -103,3 +130,4 @@
     </script>
 </body>
 </html>
+
